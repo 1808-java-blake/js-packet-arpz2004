@@ -414,3 +414,11 @@ function getRandomColor() {
 // Define function walkTheDOM(node, func)
 // This function should traverse every node in the DOM. Use recursion.
 // On each node, call func(node).
+function walkTheDOM(node, func) {
+    if (node) {
+        func(node);
+        node.childNodes.forEach(each => {
+            walkTheDOM(each, func);
+        });
+    }
+}

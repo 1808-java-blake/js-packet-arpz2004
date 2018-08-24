@@ -233,7 +233,9 @@ function getUSA() {
 function getPeopleInSales() {
     let people = document.querySelectorAll('.empName');
     people.forEach(each => {
-        console.log(each.innerText);
+        if (each.nextElementSibling.innerText === "Sales") {
+            console.log(each.innerText);
+        }
     });
 }
 
@@ -337,13 +339,13 @@ function newFavoriteColor() {
     colorInputs.forEach(each => {
         let nextElt = each.nextSibling;
         each.setAttribute('previous-color', selectedColor.value);
-        if (nextElt.nodeName === "SPAN") {
-            nextElt.style.backgroundColor = selectedColor.value;
+        if (each.parentNode.nodeName === "SPAN") {
+            each.parentNode.style.backgroundColor = selectedColor.value;
         } else {
             let span = document.createElement('span');
-            span.innerText = nextElt.data;
             span.style.backgroundColor = selectedColor.value;
-            each.parentNode.replaceChild(span, each.nextSibling);
+            each.parentNode.replaceChild(span, each);
+            span.appendChild(each);
         }
     });
 }
@@ -353,17 +355,46 @@ function newFavoriteColor() {
 // When user hovers over an employees name:
 // 	Hide the name if shown.
 // 	Show the name if hidden.
+const employees = document.querySelectorAll('.empName');
+employees.forEach(each => {
+    each.addEventListener("mouseover", hideName);
+});
+
+function hideName() {
+    if (this.style.opacity === "0") {
+        this.style.opacity = 1;
+    } else {
+        this.style.opacity = 0;
+    }
+}
 
 // 10. Current Time
 // Regarding this element:
 // 	<h5 id="currentTime"></h5>
 // Show the current time in this element in this format: 9:05:23 AM
 // The time should be accurate to the second without having to reload the page.
+displayCurrentTime();
+
+function displayCurrentTime() {
+    let today = new Date();
+    let h = today.getHours();
+    let amPm = h < 12 ? 'AM' : 'PM';
+    h = h > 12 ? h - 12 : h;
+    h = h === 0 ? 12 : h;
+    let m = today.getMinutes();
+    m = m < 10 ? `0${m}` : m;
+    let s = today.getSeconds();
+    s = s < 10 ? `0${s}` : s;
+    let currentTime = document.querySelector('#currentTime');
+    currentTime.innerText = `${h}:${m}:${s} ${amPm}`;
+    setTimeout(displayCurrentTime, 500);
+}
 
 // 11. Delay
 // Regarding this element:
 // 	<p id="helloWorld">Hello, World!</p>
 // Three seconds after a user clicks on this element, change the text to a random color.
+
 
 // 12. Walk the DOM
 // Define function walkTheDOM(node, func)

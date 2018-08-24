@@ -394,7 +394,21 @@ function displayCurrentTime() {
 // Regarding this element:
 // 	<p id="helloWorld">Hello, World!</p>
 // Three seconds after a user clicks on this element, change the text to a random color.
+const helloWorld = document.querySelector('#helloWorld');
+helloWorld.addEventListener("click", () => {
+    setTimeout(() => {
+        helloWorld.style.color = getRandomColor();
+    }, 3000)
+});
 
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
 // 12. Walk the DOM
 // Define function walkTheDOM(node, func)
